@@ -48,22 +48,6 @@ const AdminRouteGuard: React.FC<{ children: React.ReactNode }> = ({ children }) 
   return <>{children}</>;
 };
 
-// Store Wrapper
-const StoreRoute: React.FC<{ component: React.ComponentType }> = ({ component: Component }) => (
-  <StoreLayout>
-    <Component />
-  </StoreLayout>
-);
-
-// Admin Wrapper
-const AdminRoute: React.FC<{ component: React.ComponentType }> = ({ component: Component }) => (
-  <AdminRouteGuard>
-    <AdminLayout>
-      <Component />
-    </AdminLayout>
-  </AdminRouteGuard>
-);
-
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
@@ -73,19 +57,106 @@ function App() {
             <BrowserRouter>
               <Routes>
                 {/* Store Routes */}
-                <Route path="/" element={<StoreRoute component={Home} />} />
-                <Route path="/shop" element={<StoreRoute component={Shop} />} />
-                <Route path="/product/:slug" element={<StoreRoute component={ProductDetails} />} />
-                <Route path="/checkout" element={<StoreRoute component={Checkout} />} />
-                <Route path="/auth" element={<StoreRoute component={Auth} />} />
-                <Route path="/account" element={<StoreRoute component={Account} />} />
+                <Route
+                  path="/"
+                  element={
+                    <StoreLayout>
+                      <Home />
+                    </StoreLayout>
+                  }
+                />
+                <Route
+                  path="/shop"
+                  element={
+                    <StoreLayout>
+                      <Shop />
+                    </StoreLayout>
+                  }
+                />
+                <Route
+                  path="/product/:slug"
+                  element={
+                    <StoreLayout>
+                      <ProductDetails />
+                    </StoreLayout>
+                  }
+                />
+                <Route
+                  path="/checkout"
+                  element={
+                    <StoreLayout>
+                      <Checkout />
+                    </StoreLayout>
+                  }
+                />
+                <Route
+                  path="/auth"
+                  element={
+                    <StoreLayout>
+                      <Auth />
+                    </StoreLayout>
+                  }
+                />
+                <Route
+                  path="/account"
+                  element={
+                    <StoreLayout>
+                      <Account />
+                    </StoreLayout>
+                  }
+                />
 
                 {/* Admin Routes */}
-                <Route path="/admin" element={<AdminRoute component={AdminDashboard} />} />
-                <Route path="/admin/products" element={<AdminRoute component={AdminProducts} />} />
-                <Route path="/admin/orders" element={<AdminRoute component={AdminOrders} />} />
-                <Route path="/admin/coupons" element={<AdminRoute component={AdminCoupons} />} />
-                <Route path="/admin/settings" element={<AdminRoute component={AdminSettings} />} />
+                <Route
+                  path="/admin"
+                  element={
+                    <AdminRouteGuard>
+                      <AdminLayout>
+                        <AdminDashboard />
+                      </AdminLayout>
+                    </AdminRouteGuard>
+                  }
+                />
+                <Route
+                  path="/admin/products"
+                  element={
+                    <AdminRouteGuard>
+                      <AdminLayout>
+                        <AdminProducts />
+                      </AdminLayout>
+                    </AdminRouteGuard>
+                  }
+                />
+                <Route
+                  path="/admin/orders"
+                  element={
+                    <AdminRouteGuard>
+                      <AdminLayout>
+                        <AdminOrders />
+                      </AdminLayout>
+                    </AdminRouteGuard>
+                  }
+                />
+                <Route
+                  path="/admin/coupons"
+                  element={
+                    <AdminRouteGuard>
+                      <AdminLayout>
+                        <AdminCoupons />
+                      </AdminLayout>
+                    </AdminRouteGuard>
+                  }
+                />
+                <Route
+                  path="/admin/settings"
+                  element={
+                    <AdminRouteGuard>
+                      <AdminLayout>
+                        <AdminSettings />
+                      </AdminLayout>
+                    </AdminRouteGuard>
+                  }
+                />
 
                 {/* Catch-all Redirect */}
                 <Route path="*" element={<Navigate to="/" replace />} />
