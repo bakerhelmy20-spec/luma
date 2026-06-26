@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { useAuth } from './AuthContext';
-import { supabase } from '../lib/supabaseClient';
+import { getSupabase } from '../lib/supabaseClient';
 
 export interface CartItem {
   id: string; // database cart_item uuid or local random id
@@ -65,6 +65,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setLoading(true);
       if (user) {
         try {
+          const supabase = getSupabase();
           // Find or create cart in Supabase
           let { data: cart } = await supabase
             .from('carts')
@@ -170,6 +171,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const addToCart = async (productId: string, quantity: number, variantId?: string, productData?: any, variantData?: any) => {
     if (user && dbCartId) {
       try {
+        const supabase = getSupabase();
         // Check if item already exists in DB
         const query = supabase
           .from('cart_items')
@@ -300,6 +302,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const removeFromCart = async (itemId: string) => {
     if (user) {
       try {
+        const supabase = getSupabase();
         const { error } = await supabase.from('cart_items').delete().eq('id', itemId);
         if (error) throw error;
         setCartItems(prev => prev.filter(item => item.id !== itemId));
@@ -319,6 +322,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     if (user) {
       try {
+        const supabase = getSupabase();
         const { error } = await supabase
           .from('cart_items')
           .update({ quantity })
@@ -340,6 +344,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const clearCart = async () => {
     if (user && dbCartId) {
       try {
+        const supabase = getSupabase();
         await supabase.from('cart_items').delete().eq('cart_id', dbCartId);
       } catch (err) {
         console.error('Error clearing DB cart:', err);
@@ -351,6 +356,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const applyCoupon = async (code: string) => {
     try {
+      const supabase = getSupabase();
       const { data: cop, error } = await supabase
         .from('coupons')
         .select('*')

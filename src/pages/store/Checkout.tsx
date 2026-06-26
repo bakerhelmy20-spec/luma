@@ -6,7 +6,7 @@ import { useCart } from '../../context/CartContext';
 import { useAuth } from '../../context/AuthContext';
 import { Button } from '../../components/ui/Button';
 import { Input } from '../../components/ui/Input';
-import { supabase } from '../../lib/supabaseClient';
+import { getSupabase } from '../../lib/supabaseClient';
 
 export const Checkout: React.FC = () => {
   const navigate = useNavigate();
@@ -85,6 +85,7 @@ export const Checkout: React.FC = () => {
     // Save to Database if user is authenticated
     if (user) {
       try {
+        const supabase = getSupabase();
         const orderData = {
           order_number: orderNum,
           profile_id: user.id,

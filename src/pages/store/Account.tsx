@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { User, ClipboardList, MapPin, RefreshCw } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
-import { supabase } from '../../lib/supabaseClient';
+import { getSupabase } from '../../lib/supabaseClient';
 import { Button } from '../../components/ui/Button';
 import { Badge } from '../../components/ui/Badge';
 
@@ -25,6 +25,7 @@ export const Account: React.FC = () => {
     const fetchUserOrders = async () => {
       setLoadingOrders(true);
       try {
+        const supabase = getSupabase();
         const { data, error } = await supabase
           .from('orders')
           .select(`

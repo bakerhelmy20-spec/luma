@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Plus, Edit2, Trash2, X, RefreshCw } from 'lucide-react';
 import { MOCK_PRODUCTS } from '../../constants/mockData';
-import { supabase } from '../../lib/supabaseClient';
+import { getSupabase } from '../../lib/supabaseClient';
 import { Button } from '../../components/ui/Button';
 import { Input } from '../../components/ui/Input';
 
@@ -155,6 +155,7 @@ export const Products: React.FC = () => {
     };
 
     try {
+      const supabase = getSupabase();
       if (editingId) {
         // UPDATE (Supabase)
         const { error } = await supabase
@@ -239,6 +240,7 @@ export const Products: React.FC = () => {
   const handleDeleteProduct = async (id: string) => {
     if (confirm(isRtl ? 'هل أنت متأكد من حذف هذا المنتج؟' : 'Are you sure to delete this product?')) {
       try {
+        const supabase = getSupabase();
         const { error } = await supabase.from('products').delete().eq('id', id);
         if (error) throw error;
         setProducts(prev => prev.filter(p => p.id !== id));

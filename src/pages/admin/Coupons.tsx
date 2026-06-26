@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Percent, Plus, Trash2, X, RefreshCw } from 'lucide-react';
-import { supabase } from '../../lib/supabaseClient';
+import { getSupabase } from '../../lib/supabaseClient';
 import { Button } from '../../components/ui/Button';
 import { Input } from '../../components/ui/Input';
 import { Select } from '../../components/ui/Select';
@@ -100,6 +100,7 @@ export const Coupons: React.FC = () => {
   const handleDeleteCoupon = async (id: string) => {
     if (confirm(isRtl ? 'هل أنت متأكد من حذف هذا الكوبون؟' : 'Are you sure to delete this coupon?')) {
       try {
+        const supabase = getSupabase();
         const { error } = await supabase.from('coupons').delete().eq('id', id);
         if (error) throw error;
         setCoupons(prev => prev.filter(c => c.id !== id));
