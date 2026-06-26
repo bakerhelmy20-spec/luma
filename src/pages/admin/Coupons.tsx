@@ -27,6 +27,7 @@ export const Coupons: React.FC = () => {
   const fetchCoupons = async () => {
     setLoading(true);
     try {
+      const supabase = getSupabase();
       const { data, error } = await supabase
         .from('coupons')
         .select('*')
@@ -76,6 +77,7 @@ export const Coupons: React.FC = () => {
     };
 
     try {
+      const supabase = getSupabase();
       const { data, error } = await supabase
         .from('coupons')
         .insert(newCoupon)

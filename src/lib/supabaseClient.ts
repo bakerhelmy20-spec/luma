@@ -22,7 +22,7 @@ export function getSupabase(): SupabaseClient {
 
 // Export as supabase for backward compatibility
 export const supabase = new Proxy({} as SupabaseClient, {
-  get: (target, prop) => {
+  get: (_target, prop) => {
     const client = getSupabase();
     return client[prop as keyof SupabaseClient];
   }

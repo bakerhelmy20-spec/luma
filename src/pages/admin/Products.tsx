@@ -38,6 +38,7 @@ export const Products: React.FC = () => {
   const fetchProducts = async () => {
     setLoading(true);
     try {
+      const supabase = getSupabase();
       const { data, error } = await supabase
         .from('products')
         .select(`
@@ -50,7 +51,7 @@ export const Products: React.FC = () => {
       if (error) throw error;
 
       if (data && data.length > 0) {
-        const formatted = data.map((p) => {
+        const formatted = data.map((p: any) => {
           const invObj = p.product_inventory?.[0] || p.product_inventory;
           const imgObj = p.product_images?.find((img: any) => img.is_primary) || p.product_images?.[0];
           return {

@@ -17,6 +17,7 @@ export const Orders: React.FC = () => {
   const fetchOrders = async () => {
     setLoading(true);
     try {
+      const supabase = getSupabase();
       const { data, error } = await supabase
         .from('orders')
         .select(`
@@ -95,6 +96,7 @@ export const Orders: React.FC = () => {
 
   const handleStatusChange = async (orderId: string, newStatus: string) => {
     try {
+      const supabase = getSupabase();
       const { error } = await supabase
         .from('orders')
         .update({ status: newStatus })
